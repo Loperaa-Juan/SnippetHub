@@ -127,10 +127,6 @@ export default function MisPublicacionesPage() {
         },
       })
 
-      if (!res.ok) {
-        const error = await res.text()
-        throw new Error(error)
-      }
 
       setPublicaciones((prev) => prev.filter((pub) => pub.id !== id))
     } catch (err) {
