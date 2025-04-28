@@ -31,7 +31,7 @@ export default function LobbyPage() {
             </h1>
             <p className="mt-6 max-w-[700px] text-lg text-muted-foreground md:text-xl">
               Organiza, busca y reutiliza tus snippets de código en un solo lugar. Deja atrás las notas dispersas y
-              optimiza tu flujo de trabajo.
+              optimiza tu flujo de trabajo."
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link href="/register">
