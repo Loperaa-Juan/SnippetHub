@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -8,13 +9,18 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Code2, Eye, EyeOff } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useState } from "react"
+import { headers } from "next/headers"
+import axios from "axios"
 
 export default function RegisterPage() {
+  const [fullName, setFullName] = useState("")
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("")
+  const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,26 +31,35 @@ export default function RegisterPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.detail || "Error al crear el usuario")
+      const payload = {
+        username,
+        full_name: fullName,
+        email,
+        hashed_password: password,
       }
-
-      const data = await res.json()
+  
+      // Axios detecta automáticamente application/json
+      const res = await axios.post(
+        "http://localhost:8000/users",
+        payload
+      )
+  
+      const data = res.data
       console.log("Usuario creado:", data)
-      // redirigir a login o dashboard
+      router.push("/login")
     } catch (err: any) {
-      setError(err.message)
+      const detail = err.response?.data?.detail
+      if (Array.isArray(detail)) {
+        const msgs = detail.map((e: any) => e.msg).join(", ")
+        setError(msgs)
+      } else {
+        setError(detail || err.message)
+      }
     }
   }
+      
+
+      
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -63,25 +78,47 @@ export default function RegisterPage() {
             <CardDescription>Regístrate para comenzar a organizar tus snippets de código</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+
+            {/* Nombre Usuario */}
             <div className="space-y-2">
               <Label htmlFor="username">Nombre de Usuario</Label>
-              <Input id="username" placeholder="usuario123" />
+              <Input id="username" placeholder="usuario123" value={username} onChange={e => setUsername(e.target.value)}/>
             </div>
+
+            {/* Nombre completo */}
+            <div className="space-y-2">
+              <Label htmlFor="username">Nombre Completo</Label>
+              <Input id="full-name" placeholder="Tu Nombre" value={fullName} onChange={e => setFullName(e.target.value)}/>
+            </div>
+
+            {/* email */}
             <div className="space-y-2">
               <Label htmlFor="email">Correo Electrónico</Label>
-              <Input id="email" type="email" placeholder="tu@ejemplo.com" />
+              <Input id="email" type="email" placeholder="tu@ejemplo.com" value={email} onChange={e => setEmail(e.target.value)} />
             </div>
+
+            {/* Contraseña */}
             <div className="space-y-2">
               <Label htmlFor="password">Contraseña</Label>
-              <PasswordInput id="password" />
+              <PasswordInput id="password" value={password} onChange={e => setPassword(e.target.value)} />
             </div>
+
+            {/* Confirmar contraseña */}
             <div className="space-y-2">
               <Label htmlFor="confirm-password">Confirmar Contraseña</Label>
-              <PasswordInput id="confirm-password" />
+              <PasswordInput id="confirm-password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
             </div>
-            <Button className="w-full" type="submit" onClick={handleSubmit}>
+
+            {confirmPassword && password !== confirmPassword && (
+                <p className="text-red-600 text-sm">
+                  Las contraseñas no coinciden
+                </p>
+            )}
+
+            <Button className="w-full" type="submit" onClick={handleSubmit} disabled={!fullName || !username || !email || !password || !confirmPassword || password !== confirmPassword}>
               Registrarse
             </Button>
+            {error && <p className="text-red-600">{error}</p>}
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="mt-2 text-center text-sm">
@@ -97,12 +134,12 @@ export default function RegisterPage() {
   )
 }
 
-function PasswordInput({ id }: { id: string }) {
+function PasswordInput({ id, value, onChange }: { id: string; value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
     <div className="relative">
-      <Input id={id} type={showPassword ? "text" : "password"} placeholder="••••••••" />
+      <Input id={id} type={showPassword ? "text" : "password"} placeholder="••••••••" value={value} onChange={onChange} />
       <Button
         type="button"
         variant="ghost"
