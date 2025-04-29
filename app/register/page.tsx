@@ -40,7 +40,7 @@ export default function RegisterPage() {
   
       // Axios detecta automáticamente application/json
       const res = await axios.post(
-        "http://localhost:8000/users",
+        "api/users",
         payload
       )
   

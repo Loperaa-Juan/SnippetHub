@@ -28,7 +28,7 @@ export default function LoginPage() {
       formData.append("username", email)
       formData.append("password", password)
   
-      const res = await axios.post("http://localhost:8000/token", formData.toString(), {
+      const res = await axios.post("api/token", formData.toString(), {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },

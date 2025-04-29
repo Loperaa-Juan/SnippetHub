@@ -26,7 +26,7 @@ useEffect(() => {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/users/me", {
+      const res = await fetch("api/users/me", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
