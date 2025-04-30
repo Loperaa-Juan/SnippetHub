@@ -35,7 +35,7 @@ export function Sidebar({ mobile = false }: SidebarProps) {
         </div>
         <div className="mt-4 flex w-full ">
           <Link href="/snippets/new" className="w-full">
-            <Button className="w-full gap-1">
+            <Button className="w-full gap-1 dark:neon-text">
               <Plus className="h-4 w-4" />
               <span>Nuevo Snippet</span>
             </Button>
@@ -48,9 +48,9 @@ export function Sidebar({ mobile = false }: SidebarProps) {
           <div className="mb-2 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Navegación
           </div>
-          <nav className="grid gap-1">
+          <nav className="grid gap-1 dark:neon-text">
             <Link href="/dashboard">
-              <Button variant="ghost" className="w-full justify-start gap-2">
+              <Button variant="ghost" className="w-full justify-start gap-2 dark:neon-text">
                 <Home className="h-4 w-4" />
                 <span>Todos los Snippets</span>
               </Button>
@@ -63,9 +63,9 @@ export function Sidebar({ mobile = false }: SidebarProps) {
           <div className="mb-2 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Publicaciones
           </div>
-          <nav className="grid gap-1">
+          <nav className="grid gap-1 dark:neon-text">
             <Link href="/publications/me">
-              <Button variant="ghost" className="w-full justify-start gap-2" onClick={() => {HandleClick}}>
+              <Button variant="ghost" className="w-full justify-start gap-2c dark:neon-text" onClick={() => {HandleClick}}>
                 <User className="h-4 w-4" />
                 <span>Mis Publicaciones</span>
               </Button>
@@ -78,9 +78,9 @@ export function Sidebar({ mobile = false }: SidebarProps) {
           <div className="mb-2 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Snippets
           </div>
-          <nav className="grid gap-1">
+          <nav className="grid gap-1 dark:neon-text">
             <Link href="/snippets/mios">
-              <Button variant="ghost" className="w-full justify-start gap-2">
+              <Button variant="ghost" className="w-full justify-start gap-2 dark:neon-text">
                 <Code2 className="h-4 w-4" />
                 <span>Mis Snippets</span>
               </Button>

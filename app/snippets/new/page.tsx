@@ -79,20 +79,20 @@ export default function NewSnippetPage() {
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Link href="/dashboard">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className = "dark:neon-text">
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
               </Link>
-              <h1 className="text-2xl font-bold tracking-tight">Nuevo Snippet</h1>
+              <h1 className="text-2xl font-bold tracking-tight dark:neon-text">Nuevo Snippet</h1>
             </div>
-            <Button className="gap-1" onClick={handleGuardar}>
+            <Button className="gap-1 dark:neon-text" onClick={handleGuardar}>
               <Save className="h-4 w-4" />
               <span>Guardar Snippet</span>
             </Button>
           </div>
 
           <div className="grid gap-6">
-            <div className="space-y-2">
+            <div className="space-y-2 dark:neon-text">
               <Label htmlFor="title">Título</Label>
               <Input
                 id="title"
@@ -104,7 +104,7 @@ export default function NewSnippetPage() {
 
             <div className="space-y-2">
               <div className="rounded-md border">
-                <div className="flex items-center border-b px-3 py-2">
+                <div className="flex items-center border-b px-3 py-2 dark:neon-text">
                   <Select
                     defaultValue={lenguaje}
                     onValueChange={setLenguaje}
@@ -136,7 +136,7 @@ export default function NewSnippetPage() {
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 dark:neon-text">
               <Label htmlFor="description">Descripción</Label>
               <Textarea
                 id="description"

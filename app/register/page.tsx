@@ -51,7 +51,7 @@ export default function RegisterPage() {
         <div className="container flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Code2 className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">SnippetHub</span>
+            <span className="text-xl font-bold dark:neon-text">SnippetHub</span>
           </Link>
           <ThemeToggle />
         </div>
@@ -59,27 +59,27 @@ export default function RegisterPage() {
       <main className="flex flex-1 items-center justify-center p-4">
         <Card className="mx-auto w-full max-w-md">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Crear Cuenta</CardTitle>
+            <CardTitle className="text-2xl font-bold dark:neon-text">Crear Cuenta</CardTitle>
             <CardDescription>Regístrate para comenzar a organizar tus snippets de código</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-2 dark:neon-text">
               <Label htmlFor="username">Nombre de Usuario</Label>
               <Input id="username" placeholder="usuario123" />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 dark:neon-text">
               <Label htmlFor="email">Correo Electrónico</Label>
               <Input id="email" type="email" placeholder="tu@ejemplo.com" />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 dark:neon-text">
               <Label htmlFor="password">Contraseña</Label>
               <PasswordInput id="password" />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 dark:neon-text">
               <Label htmlFor="confirm-password">Confirmar Contraseña</Label>
               <PasswordInput id="confirm-password" />
             </div>
-            <Button className="w-full" type="submit" onClick={handleSubmit}>
+            <Button className="w-full rounded dark:neon-text" type="submit" onClick={handleSubmit}>
               Registrarse
             </Button>
           </CardContent>

@@ -58,32 +58,33 @@ export default function LoginPage() {
         <div className="container flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Code2 className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">SnippetHub</span>
+            <span className="text-xl font-bold dark:neon-text">SnippetHub</span>
           </Link>
           <ThemeToggle />
         </div>
       </header>
       <main className="flex flex-1 items-center justify-center p-4">
         <form onSubmit={handleLogin}>
-          <Card className="mx-auto w-full max-w-md">
+          <Card className="mx-auto w-full max-w-md rounded">
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-bold">Iniciar Sesión</CardTitle>
+              <CardTitle className="text-2xl font-bold dark:neon-text">Iniciar Sesión</CardTitle>
               <CardDescription>Ingresa tus credenciales para acceder a tu biblioteca de snippets</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
+              <div className="space-y-2 dark:neon-text">
                 <Label>Usuario</Label>
-                <Input id="user"value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <Input className = "rounded" id="user"value={email} onChange={(e) => setEmail(e.target.value)} required />
               </div>
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Contraseña</Label>
+                <div className="flex items-center justify-between ">
+                  <Label className = "dark:neon-text" htmlFor="password">Contraseña</Label>
                   <Link href="#" className="text-xs text-primary hover:underline">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </div>
                 <div className="relative">
                   <Input
+                    className="rounded"
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
@@ -107,11 +108,11 @@ export default function LoginPage() {
                   </Button>
                 </div>
               </div>
-              <Button className="w-full" type="submit" >Iniciar Sesión</Button>
+              <Button className="w-full rounded" type="submit" >Iniciar Sesión</Button>
             </CardContent>
             <CardFooter className="flex flex-col">
               <div className="mt-2 text-center text-sm">
-                ¿No tienes cuenta?{" "}
+                ¿No tienes cuenta?{""}
                 <Link href="/register" className="text-primary hover:underline">
                   Regístrate
                 </Link>

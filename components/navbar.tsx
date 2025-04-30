@@ -34,19 +34,19 @@ export function Navbar() {
         </Sheet>
         <Link href="/dashboard" className="flex items-center gap-2">
           <Code2 className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold">SnippetHub</span>
+          <span className="text-xl font-bold dark:neon-text">SnippetHub</span>
         </Link>
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full">
-                <User className="h-5 w-5" />
+                <User className="h-5 w-5 " />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
-                <Link href="/profile">Mi Perfil</Link>
+                <Link href="/profile" className = "">Mi Perfil</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
@@ -68,7 +68,7 @@ function MobileSidebar() {
     <div className="flex h-full flex-col py-4">
       <Link href="/dashboard" className="flex items-center gap-2 px-2">
         <Code2 className="h-6 w-6 text-primary" />
-        <span className="text-xl font-bold">SnippetHub</span>
+        <span className="text-xl font-bold dark:neon-text">SnippetHub</span>
       </Link>
       <div className="mt-8 flex-1">
         <Sidebar mobile />

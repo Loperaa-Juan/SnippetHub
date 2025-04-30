@@ -56,27 +56,27 @@ useEffect(() => {
         <Sidebar />
         <main className="flex-1 p-6">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold tracking-tight">Mi Perfil</h1>
+            <h1 className="text-3xl font-bold tracking-tight dark:neon-text">Mi Perfil</h1>
             <p className="text-muted-foreground">Administra tu información personal y preferencias</p>
           </div>
 
           <div className="grid gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Información Personal</CardTitle>
+                <CardTitle className= "dark:neon-text">Información Personal</CardTitle>
                 <CardDescription>Actualiza tu información personal y de contacto</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex flex-col items-center justify-center sm:flex-row sm:items-start sm:justify-start sm:gap-6">
                   <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-muted sm:mb-0">
-                    <User className="h-12 w-12 text-muted-foreground" />
+                    <User className="h-12 w-12 text-muted-foreground dark:neon-text" />
                   </div>
                   <div className="grid w-full gap-3">
-                    <div className="space-y-2">
+                    <div className="space-y-2 dark:neon-text">
                       <Label htmlFor="username">Nombre de Usuario</Label>
                       <Input id="username" defaultValue={user?.username || ""} />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2 dark:neon-text">
                       <Label htmlFor="email">Correo Electrónico</Label>
                       <Input id="email" type="email" defaultValue={user?.email} />
                     </div>
@@ -85,7 +85,7 @@ useEffect(() => {
               </CardContent>
             </Card>
             <div className="flex justify-end">
-              <Button className="gap-1">
+              <Button className="gap-1 dark:neon-text">
                 <Save className="h-4 w-4" />
                 <span>Guardar Cambios</span>
               </Button>

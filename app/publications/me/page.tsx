@@ -140,7 +140,7 @@ export default function MisPublicacionesPage() {
   
   return (
     <div className="p-6 space-y-4">
-      <h1 className="text-2xl font-bold">Mis Publicaciones</h1>
+      <h1 className="text-2xl font-bold dark:neon-text">Mis Publicaciones</h1>
 
       {publicaciones.length === 0 ? (
         <p>No tienes publicaciones aún.</p>
@@ -198,15 +198,15 @@ export default function MisPublicacionesPage() {
         <div className="flex flex-wrap gap-2 items-center">
           {pub.archivo && (
             <a href={pub.archivo} download>
-              <Button variant="outline" className="flex items-center gap-2">
-                <Download className="h-4 w-4" />
+              <Button variant="outline" className="flex items-center gap-2 dark:neon-text">
+                <Download className="h-4 w-4 " />
                 Descargar
               </Button>
             </a>
           )}
           <Button
             variant="outline"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 dark:neon-text"
             onClick={() => handleEditar(pub)}
           >
             <Pencil className="h-4 w-4" />
@@ -215,7 +215,7 @@ export default function MisPublicacionesPage() {
 
           <Button
             variant="destructive"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 dark:neon-text"
             onClick={() => handleDelete(pub.id)}
           >
             <Trash className="h-4 w-4" />
