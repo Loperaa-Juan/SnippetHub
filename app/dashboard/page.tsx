@@ -1,12 +1,7 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Navbar } from "@/components/navbar"
 import { Sidebar } from "@/components/sidebar"
 import { SnippetCard } from "@/components/snippet-card"
-import { Plus, Search } from "lucide-react"
-import Link from "next/link"
 
-// Datos de ejemplo para mostrar en la interfaz
 const snippets = [
   {
     id: "1",
@@ -16,15 +11,6 @@ const snippets = [
     language: "javascript",
     category: "Utilidades",
     tags: ["array", "ordenamiento", "función"],
-  },
-  {
-    id: "2",
-    title: "Componente React Button",
-    description: "Componente de botón reutilizable con variantes",
-    code: "const Button = ({ variant = 'primary', children, ...props }) => {\n  return (\n    <button\n      className={`btn btn-${variant}`}\n      {...props}\n    >\n      {children}\n    </button>\n  );\n};",
-    language: "jsx",
-    category: "React",
-    tags: ["componente", "UI", "botón"],
   },
   {
     id: "3",
@@ -73,8 +59,6 @@ export default function DashboardPage() {
         <main className="flex-1 p-6">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <h1 className="text-3xl font-bold tracking-tight">Ejemplos de Snippets</h1>
-            <div className="flex items-center gap-4">
-            </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

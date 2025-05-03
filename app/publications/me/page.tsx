@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Download, Pencil, Trash } from "lucide-react"
+import { Copy, Download, Pencil, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 
@@ -19,6 +19,8 @@ export default function MisPublicacionesPage() {
   const [editContenido, setEditContenido] = useState("")
   const [editArchivo, setEditArchivo] = useState<File | null>(null)
   const [archivoActual, setArchivoActual] = useState<string | null>(null);
+  const [copiadoId, setCopiadoId] = useState<string | null>(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +57,7 @@ export default function MisPublicacionesPage() {
     fetchData()
   }, [])
 
+
   const handleEditar = (pub: Publicacion) => {
     setEditandoId(pub.id);
     setEditTitulo(pub.titulo);
@@ -85,8 +88,7 @@ export default function MisPublicacionesPage() {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
-          // ❌ NO pongas 'Content-Type': 'multipart/form-data'
-          // El navegador lo setea automáticamente con el boundary correcto
+
         },
         body: formData,
       });
@@ -192,14 +194,34 @@ export default function MisPublicacionesPage() {
         </pre>
 
         <div className="flex flex-wrap gap-2 items-center">
-          {pub.archivo && (
-            <a href={pub.archivo} download>
-              <Button variant="outline" className="flex items-center gap-2">
-                <Download className="h-4 w-4" />
-                Descargar
-              </Button>
-            </a>
-          )}
+        {pub.archivo && (
+  <div className="relative">
+    <Button
+      variant="outline"
+      className="flex items-center gap-2"
+      onClick={async () => {
+        try {
+          await navigator.clipboard.writeText(pub.archivo);
+          setCopiadoId(pub.id);
+          setTimeout(() => setCopiadoId(null), 1000); 
+        } catch (error) {
+          console.error("Error al copiar:", error);
+        }
+      }}
+    >
+      <Copy className="h-4 w-4" />
+      Copiar
+    </Button>
+
+    {copiadoId === pub.id && (
+      <span className="absolute -top-6 left-0 text-green-600 text-sm font-medium">
+        ¡Copiado!
+      </span>
+    )}
+  </div>
+)}
+
+
           <Button
             variant="outline"
             className="flex items-center gap-2"

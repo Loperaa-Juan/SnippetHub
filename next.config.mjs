@@ -7,7 +7,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://snnipethub-backend.onrender.com/:path*",
+        destination: "http://localhost:8000/:path*",
       },
     ]
   },

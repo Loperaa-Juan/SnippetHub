@@ -1,74 +1,80 @@
 "use client";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Navbar } from "@/components/navbar"
-import { Sidebar } from "@/components/sidebar"
-import { FileDropUploader } from "@/components/upload_snippet"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ArrowLeft, Save } from "lucide-react"
-import Link from "next/link"
-import { useState } from "react"
-
-
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Navbar } from "@/components/navbar";
+import { Sidebar } from "@/components/sidebar";
+import { FileDropUploader } from "@/components/upload_snippet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ArrowLeft, Save } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
 export default function NewSnippetPage() {
-  const [titulo, setTitulo] = useState("")
-  const [lenguaje, setLenguaje] = useState("javascript")
-  const [descripcion, setDescripcion] = useState("")
-  const [archivo, setArchivo] = useState<File | null>(null)
+  const [titulo, setTitulo] = useState("");
+  const [lenguaje, setLenguaje] = useState("javascript");
+  const [descripcion, setDescripcion] = useState("");
+  const [archivo, setArchivo] = useState<File | null>(null);
+  const [mensajeExito, setMensajeExito] = useState(false);
+  const [fileUploaderKey, setFileUploaderKey] = useState(0); // 🔑
 
   const handleFileChange = (file: File) => {
-    setArchivo(file)
-  }
+    if (!file) {
+      console.error("No se ha seleccionado ningún archivo");
+      return;
+    }
+    setArchivo(file);
+  };
 
   const handleGuardar = async () => {
-    const token = localStorage.getItem("token")
+    if (!archivo) {
+      console.error("No se ha seleccionado ningún archivo");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
     if (!token) {
-      console.error("Token no encontrado")
-      return
+      console.error("No hay token disponible");
+      return;
     }
 
-    if (!titulo || !lenguaje || !descripcion || !archivo) {
-      console.error("Faltan datos en el formulario")
-      return
+    const formData = new FormData();
+    formData.append("Titulo", titulo);
+    formData.append("Lenguaje", lenguaje);
+    formData.append("file", archivo);
+
+    const res = await fetch("http://localhost:8000/create/snippets", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("Error al crear el snippet:", errorText);
+      return;
     }
 
-    const formData = new FormData()
-    formData.append("Titulo", titulo)
-    formData.append("Lenguaje", lenguaje)
-    formData.append("Descripcion", descripcion)
-    formData.append("file", archivo)
+    // ✅ Mostrar mensaje y resetear formulario
+    setMensajeExito(true);
+    setTitulo("");
+    setLenguaje("javascript");
+    setDescripcion("");
+    setArchivo(null);
+    setFileUploaderKey((prev) => prev + 1); // 🔁 Reset FileDropUploader
 
-    try {
-      const res = await fetch("/api/snippets", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      })
-
-      if (!res.ok) {
-        const errorText = await res.text()
-        console.error("Error al crear el snippet:", errorText)
-        return
-      }
-
-      // Opcional: Manejar la respuesta si es necesario
-      const createdSnippet = await res.json()
-      console.log("Snippet creado:", createdSnippet)
-
-      // Opcional: Redirigir o actualizar el estado
-      // Ejemplo: Si rediriges a otra página
-      // router.push("/snippets")
-
-    } catch (err) {
-      console.error("Error de red al crear el snippet:", err)
-    }
-  }
+    setTimeout(() => setMensajeExito(false), 3000);
+  };
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -91,6 +97,12 @@ export default function NewSnippetPage() {
             </Button>
           </div>
 
+          {mensajeExito && (
+            <div className="mb-6 rounded-md border border-green-300 bg-green-100 p-4 text-green-800">
+              Snippet subido exitosamente
+            </div>
+          )}
+
           <div className="grid gap-6">
             <div className="space-y-2">
               <Label htmlFor="title">Título</Label>
@@ -105,10 +117,7 @@ export default function NewSnippetPage() {
             <div className="space-y-2">
               <div className="rounded-md border">
                 <div className="flex items-center border-b px-3 py-2">
-                  <Select
-                    defaultValue={lenguaje}
-                    onValueChange={setLenguaje}
-                  >
+                  <Select value={lenguaje} onValueChange={setLenguaje}>
                     <SelectTrigger className="w-40 border-0 bg-transparent p-0 shadow-none focus:ring-0">
                       <SelectValue placeholder="Seleccionar lenguaje" />
                     </SelectTrigger>
@@ -132,7 +141,15 @@ export default function NewSnippetPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <FileDropUploader onDrop={handleFileChange} />
+                <FileDropUploader
+                  key={fileUploaderKey} // 👈 fuerza el reset
+                  onDrop={handleFileChange}
+                />
+                {archivo && (
+                  <p className="text-sm text-gray-500 px-3 py-1">
+                    Archivo cargado: <span className="font-medium">{archivo.name}</span>
+                  </p>
+                )}
               </div>
             </div>
 
@@ -150,5 +167,5 @@ export default function NewSnippetPage() {
         </main>
       </div>
     </div>
-  )
+  );
 }
