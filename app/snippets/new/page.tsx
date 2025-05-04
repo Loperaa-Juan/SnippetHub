@@ -65,13 +65,12 @@ export default function NewSnippetPage() {
       return;
     }
 
-    // ✅ Mostrar mensaje y resetear formulario
     setMensajeExito(true);
     setTitulo("");
     setLenguaje("javascript");
     setDescripcion("");
     setArchivo(null);
-    setFileUploaderKey((prev) => prev + 1); // 🔁 Reset FileDropUploader
+    setFileUploaderKey((prev) => prev + 1); 
 
     setTimeout(() => setMensajeExito(false), 3000);
   };
@@ -142,7 +141,7 @@ export default function NewSnippetPage() {
                   </Select>
                 </div>
                 <FileDropUploader
-                  key={fileUploaderKey} // 👈 fuerza el reset
+                  key={fileUploaderKey} 
                   onDrop={handleFileChange}
                 />
                 {archivo && (

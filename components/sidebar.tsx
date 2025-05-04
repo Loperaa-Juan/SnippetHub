@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
+import { useRouter } from 'next/navigation'
 import { Code2, Home, Plus, Search, User } from "lucide-react"
 import React, { useState } from "react"
 
@@ -14,10 +15,16 @@ interface SidebarProps {
 
 export function Sidebar({ mobile = false }: SidebarProps) {
   const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
 
   const HandleClick = (e: React.FormEvent) => {
     e.preventDefault()
     
+  }
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' ) {
+      router.push(`/publications/user?username=${searchQuery}`);
+    }
   }
 
   return (
@@ -27,10 +34,11 @@ export function Sidebar({ mobile = false }: SidebarProps) {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground space-y-4" />
           <Input
             type="search"
-            placeholder="Buscar snippets..."
+            placeholder="Buscar usuarios..."
             className="pl-8"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <div className="mt-4 flex w-full ">
@@ -79,7 +87,7 @@ export function Sidebar({ mobile = false }: SidebarProps) {
             Snippets
           </div>
           <nav className="grid gap-1">
-            <Link href="/snippets/mios">
+            <Link href="/snippets/me">
               <Button variant="ghost" className="w-full justify-start gap-2">
                 <Code2 className="h-4 w-4" />
                 <span>Mis Snippets</span>
