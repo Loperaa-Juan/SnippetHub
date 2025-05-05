@@ -136,7 +136,7 @@ export default function PublicationsPage() {
                           return;
                         }
 
-                        const res = await fetch(`http://localhost:8000/comentarios/${pub.id}`, {
+                        const res = await fetch(`/api/comentarios/${pub.id}`, {
                           headers: {
                             Authorization: `Bearer ${token}`,
                           },
@@ -230,7 +230,7 @@ export default function PublicationsPage() {
                         formData.append("Publicacionid", pub.id);
                         formData.append("comentario", comentarioTexto);
                         try {
-                          const res = await fetch("http://localhost:8000/create/comentario", {
+                          const res = await fetch("/api/create/comentario", {
                             method: "POST",
                             headers: {
                               Authorization: `Bearer ${token}`,

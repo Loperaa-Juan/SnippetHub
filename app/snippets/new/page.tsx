@@ -52,7 +52,7 @@ export default function NewSnippetPage() {
     formData.append("file", archivo);
     formData.append("descripcion", descripcion);
 
-    const res = await fetch("http://localhost:8000/create/snippets", {
+    const res = await fetch("/api/create/snippets", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

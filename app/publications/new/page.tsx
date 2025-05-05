@@ -44,7 +44,7 @@ export default function NewPublicationPage() {
     formData.append("Contenido", contenido);
     formData.append("SnippetId", snippetIdManual);
 
-    const res = await fetch("http://localhost:8000/publicaciones", {
+    const res = await fetch("/api/publicaciones", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
