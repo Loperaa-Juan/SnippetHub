@@ -28,7 +28,11 @@ const DashboardAdminPage = () => {
 
   const barChartRef = useRef<HTMLCanvasElement | null>(null);
   const pieChartRef = useRef<HTMLCanvasElement | null>(null);
+  const barChartInstanceRef = useRef<Chart | null>(null);
+  const pieChartInstanceRef = useRef<Chart | null>(null);
 
+
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -74,6 +78,7 @@ const DashboardAdminPage = () => {
   useEffect(() => {
     if (loading || !stats.totalUsers) return;
 
+    
     // Diagrama de Barras
     const barCtx = barChartRef.current?.getContext("2d");
     if (barCtx) {

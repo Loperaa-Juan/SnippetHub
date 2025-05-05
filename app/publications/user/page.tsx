@@ -83,11 +83,11 @@ export default function PublicationsPage() {
             {publicaciones.map((pub) => (
               <Card key={pub.id} className="flex flex-col gap-4 p-6 shadow-md rounded-2xl border border-gray-200">
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-800">{pub.titulo}</h2>
-                  <p className="text-gray-600">{pub.contenido}</p>
+                  <h2 className="text-2xl font-bold text-gray-800">{pub.titulo}</h2>
+                  <p className="text-sm text-gray-700 italic">{pub.contenido}</p>
                 </div>
 
-                <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-800">
+                <pre className="bg-gray-900 text-gray-100 text-sm rounded-lg p-4 overflow-x-auto font-mono">
                   <code>{atob(pub.archivo)}</code>
                 </pre>
 

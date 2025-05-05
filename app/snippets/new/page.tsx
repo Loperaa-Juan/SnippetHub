@@ -50,6 +50,7 @@ export default function NewSnippetPage() {
     formData.append("Titulo", titulo);
     formData.append("Lenguaje", lenguaje);
     formData.append("file", archivo);
+    formData.append("descripcion", descripcion);
 
     const res = await fetch("http://localhost:8000/create/snippets", {
       method: "POST",

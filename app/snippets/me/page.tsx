@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Navbar } from "../../../components/navbar";
 import { Sidebar } from "../../../components/sidebar";
 import { Card } from "@/components/ui/card";
-import { Copy, Pencil, Trash, Upload } from "lucide-react";
+import { Copy, CopyPlus, Pencil, Trash, Upload, IdCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface SnippetInterface {
@@ -12,15 +12,31 @@ interface SnippetInterface {
   Titulo: string;
   snippet: string;
   Lenguaje: string;
+  descripcion: string;
 }
 
 export default function MisSnippetsPage() {
   const [snippets, setSnippets] = useState<SnippetInterface[]>([]);
   const [editandoId, setEditandoId] = useState<string | null>(null);
   const [editTitulo, setEditTitulo] = useState("");
+
   const [editContenido, setEditContenido] = useState("");
   const [archivo, setArchivo] = useState<File | null>(null);
   const [copiadoId, setCopiadoId] = useState<string | null>(null);
+
+  const handleCopiar = async (snippet: SnippetInterface) => {
+    try {
+      await navigator.clipboard.writeText(snippet.snippet);
+      setCopiadoId(snippet.id);
+  
+      setTimeout(() => {
+        setCopiadoId(null);
+      }, 2000);
+    } catch (err) {
+      console.error("Error al copiar el snippet:", err);
+    }
+  };
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,6 +116,7 @@ export default function MisSnippetsPage() {
       console.error("Error al guardar snippet:", err);
     }
   };
+
 
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
@@ -222,53 +239,71 @@ export default function MisSnippetsPage() {
                     </div>
                   ) : (
                     <>
-                      <div className="flex flex-col gap-2">
-                        <h2 className="text-xl font-semibold text-gray-800">
-                          {snippet.Titulo}
-                        </h2>
-                        <p className="text-sm text-gray-600">
-                          {snippet.Lenguaje}
-                        </p>
-                      </div>
+                      <div className="bg-white rounded-2xl shadow-md p-6 space-y-4 border border-gray-200">
+  <div className="space-y-1">
+    <h2 className="text-2xl font-bold text-gray-800">{snippet.Titulo}</h2>
+    <p className="text-sm text-indigo-600 font-medium">{snippet.Lenguaje}</p>
+    <p className="text-sm text-gray-700 italic">{snippet.descripcion}</p>
+  </div>
 
-                      <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-800">
-                        <code>{snippet.snippet}</code>
-                      </pre>
+  <pre className="bg-gray-900 text-gray-100 text-sm rounded-lg p-4 overflow-x-auto font-mono">
+    <code>{snippet.snippet}</code>
+  </pre>
 
-                      <div className="flex flex-wrap gap-2 items-center">
-                        {copiadoId === snippet.id && (
-                          <span className="text-green-600 text-sm font-medium">
-                            ¡Copiado!
-                          </span>
-                        )}
+  <div className="flex flex-wrap gap-3 items-center justify-between">
+    {copiadoId === snippet.id && (
+      <span className="text-green-600 text-sm font-semibold">¡Copiado!</span>
+    )}
 
-                        <Button
-                          variant="outline"
-                          className="flex items-center gap-2"
-                          onClick={() => handleEditar(snippet)}
-                        >
-                          <Pencil className="h-4 w-4" />
-                          Editar
-                        </Button>
+    <div className="flex flex-wrap gap-2 ml-auto">
+      <Button
+        variant="outline"
+        className="flex items-center gap-2"
+        onClick={() => handleEditar(snippet)}
+      >
+        <Pencil className="h-4 w-4" />
+        Editar
+      </Button>
 
-                        <Button
-                          variant="destructive"
-                          className="flex items-center gap-2"
-                          onClick={() => handleDelete(snippet.id)}
-                        >
-                          <Trash className="h-4 w-4" />
-                          Eliminar
-                        </Button>
+      <Button
+        variant="destructive"
+        className="flex items-center gap-2"
+        onClick={() => handleDelete(snippet.id)}
+      >
+        <Trash className="h-4 w-4" />
+        Eliminar
+      </Button>
 
-                        <Button
-                          variant="default"
-                          className="flex items-center gap-2"
-                          onClick={() => handlePublish(snippet)}
-                        >
-                          <Upload className="h-4 w-4" />
-                          Publicar
-                        </Button>
-                      </div>
+      {/* <Button
+        variant="default"
+        className="flex items-center gap-2"
+        onClick={() => handleCopiar(snippet)}
+      >
+        <CopyPlus className="h-4 w-4" />
+        Copiar
+      </Button> */}
+
+    <Button
+      variant="default"
+      className="flex items-center gap-2"
+      onClick={async () => {
+        try {
+          await navigator.clipboard.writeText(snippet.id);
+          setCopiadoId(snippet.id);
+          setTimeout(() => setCopiadoId(null), 2000);
+        } catch (err) {
+          console.error("Error al copiar el ID:", err);
+        }
+      }}
+    >
+      <IdCard className="h-4 w-4" />
+      Copiar ID!
+    </Button>
+
+    </div>
+  </div>
+</div>
+
                     </>
                   )}
                 </Card>
