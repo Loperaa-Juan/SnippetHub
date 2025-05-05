@@ -27,6 +27,8 @@ export default function PublicationsPage() {
   const [comentarioActivo, setComentarioActivo] = useState<string | null>(null);
   const [comentarios, setComentarios] = useState<{ [id: string]: string }>({});
   const [comentarioExitosoId, setComentarioExitosoId] = useState<string | null>(null);
+  const [comentariosCargados, setComentariosCargados] = useState<{ [pubId: string]: any[] }>({});
+  const [comentariosVisiblesId, setComentariosVisiblesId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,7 +93,7 @@ export default function PublicationsPage() {
                   <code>{atob(pub.archivo)}</code>
                 </pre>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-3">
                   <Button
                     variant="outline"
                     onClick={async () => {
@@ -118,15 +120,84 @@ export default function PublicationsPage() {
                     Comentar
                   </Button>
 
-                  <Button variant="default" className="flex items-center gap-2">
+                  <Button
+                    variant="default"
+                    className="flex items-center gap-2"
+                    onClick={async () => {
+                      if (comentariosVisiblesId === pub.id) {
+                        setComentariosVisiblesId(null); // Ocultar si ya está visible
+                        return;
+                      }
+
+                      try {
+                        const token = localStorage.getItem("token");
+                        if (!token) {
+                          setError("Token no encontrado");
+                          return;
+                        }
+
+                        const res = await fetch(`http://localhost:8000/comentarios/${pub.id}`, {
+                          headers: {
+                            Authorization: `Bearer ${token}`,
+                          },
+                        });
+
+                        if (!res.ok) {
+                          const errorData = await res.json();
+                          throw errorData;
+                        }
+
+                        const data = await res.json();
+                        setComentariosCargados((prev) => ({ ...prev, [pub.id]: data }));
+                        setComentariosVisiblesId(pub.id);
+                      } catch (err: any) {
+                        console.error("Error al cargar comentarios:", err);
+                        let mensaje = "Error desconocido";
+
+                        if (Array.isArray(err?.detail)) {
+                          mensaje = err.detail.map((e: any) => e.msg).join(" | ");
+                        } else if (typeof err?.detail === "string") {
+                          mensaje = err.detail;
+                        } else if (err?.message) {
+                          mensaje = err.message;
+                        } else {
+                          mensaje = JSON.stringify(err);
+                        }
+
+                        setError(mensaje);
+                      }
+                    }}
+                  >
                     <Eye className="h-4 w-4" />
-                    Ver comentarios
+                    {comentariosVisiblesId === pub.id ? "Ocultar comentarios" : "Ver comentarios"}
                   </Button>
 
                   {copiadoId === pub.id && (
                     <span className="text-green-600 text-sm">¡Copiado!</span>
                   )}
                 </div>
+
+                {comentariosVisiblesId === pub.id && (
+                  <div className="mt-4 w-full space-y-3 p-4 bg-gray-50 rounded-xl shadow-inner border-t">
+                    {comentariosCargados[pub.id]?.length > 0 ? (
+                      comentariosCargados[pub.id].map((comentario, index) => (
+                        <div
+                          key={index}
+                          className="flex flex-col gap-1 border-b last:border-b-0 pb-3"
+                        >
+                          <p className="text-sm text-gray-700">{comentario.comentario}</p>
+                          <span className="text-xs text-blue-500 font-medium">
+                            — {comentario.usuario}
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-500 italic text-center">
+                        No hay comentarios disponibles.
+                      </p>
+                    )}
+                  </div>
+                )}
 
                 {comentarioActivo === pub.id && (
                   <div className="mt-2 space-y-2">
@@ -155,17 +226,16 @@ export default function PublicationsPage() {
                           return;
                         }
 
+                        const formData = new FormData();
+                        formData.append("Publicacionid", pub.id);
+                        formData.append("comentario", comentarioTexto);
                         try {
-                          const res = await fetch("http://localhost:8000/create/comentarios", {
+                          const res = await fetch("http://localhost:8000/create/comentario", {
                             method: "POST",
                             headers: {
-                              "Content-Type": "application/json",
                               Authorization: `Bearer ${token}`,
                             },
-                            body: JSON.stringify({
-                              Publicacionid: pub.id,
-                              contenido: comentarioTexto,
-                            }),
+                            body: formData,
                           });
 
                           if (!res.ok) {

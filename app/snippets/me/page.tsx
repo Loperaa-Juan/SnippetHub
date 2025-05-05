@@ -256,15 +256,7 @@ export default function MisSnippetsPage() {
     )}
 
     <div className="flex flex-wrap gap-2 ml-auto">
-      <Button
-        variant="outline"
-        className="flex items-center gap-2"
-        onClick={() => handleEditar(snippet)}
-      >
-        <Pencil className="h-4 w-4" />
-        Editar
-      </Button>
-
+      
       <Button
         variant="destructive"
         className="flex items-center gap-2"
@@ -274,14 +266,6 @@ export default function MisSnippetsPage() {
         Eliminar
       </Button>
 
-      {/* <Button
-        variant="default"
-        className="flex items-center gap-2"
-        onClick={() => handleCopiar(snippet)}
-      >
-        <CopyPlus className="h-4 w-4" />
-        Copiar
-      </Button> */}
 
     <Button
       variant="default"
