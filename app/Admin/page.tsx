@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, use } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Chart from "chart.js/auto";
@@ -14,6 +14,8 @@ import {
   UserCheck2,
   Newspaper,
 } from "lucide-react";
+import { Navbar } from "@/components/navbar";
+import { Sidebar } from "@/components/sidebar";
 
 const DashboardAdminPage = () => {
   const [stats, setStats] = useState({
@@ -76,13 +78,33 @@ const DashboardAdminPage = () => {
   }, []);
 
   useEffect(() => {
-    if (loading || !stats.totalUsers) return;
-
-    
-    // Diagrama de Barras
     const barCtx = barChartRef.current?.getContext("2d");
+
+    if (barCtx && barChartInstanceRef.current) {
+      barChartInstanceRef.current.destroy();
+    }
+
+  }, [stats, loading]);
+
+  useEffect(() => {
+    if (loading || !stats.totalUsers) return;
+  
+    const barCtx = barChartRef.current?.getContext("2d");
+    const pieCtx = pieChartRef.current?.getContext("2d");
+  
+    // 🧨 DESTRUIR instancias anteriores si existen
+    if (barChartInstanceRef.current) {
+      barChartInstanceRef.current.destroy();
+      barChartInstanceRef.current = null;
+    }
+    if (pieChartInstanceRef.current) {
+      pieChartInstanceRef.current.destroy();
+      pieChartInstanceRef.current = null;
+    }
+  
+    // 🎨 CREAR nuevos gráficos
     if (barCtx) {
-      new Chart(barCtx, {
+      barChartInstanceRef.current = new Chart(barCtx, {
         type: "bar",
         data: {
           labels: [
@@ -114,11 +136,9 @@ const DashboardAdminPage = () => {
         },
       });
     }
-
-    // Diagrama de Torta
-    const pieCtx = pieChartRef.current?.getContext("2d");
+  
     if (pieCtx) {
-      new Chart(pieCtx, {
+      pieChartInstanceRef.current = new Chart(pieCtx, {
         type: "pie",
         data: {
           labels: [
@@ -157,6 +177,7 @@ const DashboardAdminPage = () => {
       });
     }
   }, [stats, loading]);
+  
 
   const handleDownloadPDFReport = async () => {
     const doc = new jsPDF("p", "mm", "a4");
@@ -274,67 +295,67 @@ const DashboardAdminPage = () => {
   );
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-8">Dashboard Administrativo</h1>
-
-      <section className="border-t bg-muted/40 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <StatCard
-            title="Usuarios Registrados"
-            value={stats.totalUsers}
-            Icon={UsersRound}
-          />
-          <StatCard
-            title="Snippets Creados"
-            value={stats.totalSnippets}
-            Icon={FileCheck2}
-          />
-          <StatCard
-            title="Publicaciones Totales"
-            value={stats.totalPublicaciones}
-            Icon={Newspaper}
-          />
-          <StatCard
-            title="Comentarios Totales"
-            value={stats.totalComentarios}
-            Icon={UserRoundCheck}
-          />
-          <StatCard
-            title="Snippets Aprobados"
-            value={stats.snippetsAprobados}
-            Icon={FileCheck2}
-          />
-          <StatCard
-            title="Usuarios Activos"
-            value={stats.usuariosActivos}
-            Icon={UserCheck2}
-          />
+    <div className="flex min-h-screen flex-col">
+      <Navbar />
+      <div className="flex flex-1">
+        <Sidebar />
+        {/* <h1 className="text-3xl font-bold mb-8">Dashboard Administrativo</h1> */}
+        <section className="border-t bg-muted/40 py-16 align-middle flex-1 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <StatCard
+              title="Usuarios Registrados"
+              value={stats.totalUsers}
+              Icon={UsersRound}
+            />
+            <StatCard
+              title="Snippets Creados"
+              value={stats.totalSnippets}
+              Icon={FileCheck2}
+            />
+            <StatCard
+              title="Publicaciones Totales"
+              value={stats.totalPublicaciones}
+              Icon={Newspaper}
+            />
+            <StatCard
+              title="Comentarios Totales"
+              value={stats.totalComentarios}
+              Icon={UserRoundCheck}
+            />
+            <StatCard
+              title="Snippets Aprobados"
+              value={stats.snippetsAprobados}
+              Icon={FileCheck2}
+            />
+            <StatCard
+              title="Usuarios Activos"
+              value={stats.usuariosActivos}
+              Icon={UserCheck2}
+            />
+          </div>
+          <div className="flex justify-center items-center flex-col mb-10">
+            <Button onClick={handleDownloadPDFReport}>
+              Descargar Reporte en PDF
+            </Button>
+          </div>
+          {/* Canvas ocultos pero renderizados para generar el PDF */}
+          <div
+          style={{
+            opacity: 0,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: -1,
+            width: 400,
+            height: 400,
+            overflow: "hidden",
+          }}
+        >
+          <canvas ref={barChartRef} width="400" height="400" />
+          <canvas ref={pieChartRef} width="400" height="400" />
         </div>
-
-        <div className="flex justify-center items-center flex-col mb-10">
-          <Button onClick={handleDownloadPDFReport}>
-            Descargar Reporte en PDF
-          </Button>
-        </div>
-
-        {/* Canvas ocultos pero renderizados para generar el PDF */}
-        <div
-  style={{
-    opacity: 0,
-    position: "absolute",
-    top: 0,
-    left: 0,
-    zIndex: -1,
-    width: 400,
-    height: 400,
-    overflow: "hidden",
-  }}
->
-  <canvas ref={barChartRef} width="400" height="400" />
-  <canvas ref={pieChartRef} width="400" height="400" />
-</div>
-
-      </section>
+        </section>
+      </div>
     </div>
   );
 };
