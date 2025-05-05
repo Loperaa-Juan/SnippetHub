@@ -154,70 +154,109 @@ const DashboardAdminPage = () => {
   }, [stats, loading]);
 
   const handleDownloadPDFReport = async () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF("p", "mm", "a4");
+  
+    
+    // Portada
+    doc.setFillColor(4, 18, 37); // Fondo oscuro del logo SnippetHub
+    doc.rect(0, 0, 210, 297, "F"); // Fondo completo
 
-    doc.setFontSize(22);
-    doc.text("Reporte de Estadísticas", 20, 20);
-
+  
+  
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(26);
+    doc.setFont("helvetica", "bold");
+    doc.text("REPORTE DE ESTADÍSTICAS", 105, 80, { align: "center" });
+  
     doc.setFontSize(14);
-    let y = 40;
-
+    doc.setFont("helvetica", "normal");
+    doc.text("Este documento ha sido generado automáticamente por la plataforma \nadministrativa de SnippetHub\n\n", 105, 95, { align: "center" });
+  
+    doc.setFontSize(10);
+    const date = new Date().toLocaleString();
+    doc.text(`Fecha de generación: ${date}`, 105, 110, { align: "center" });
+  
+    doc.addPage();
+  
+    // Sección de Estadísticas
+    doc.setTextColor(0);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text("Resumen General", 15, 20);
+  
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+  
     const statsList = [
-      { label: "Usuarios Registrados", value: stats.totalUsers },
-      { label: "Snippets Creados", value: stats.totalSnippets },
-      { label: "Publicaciones Totales", value: stats.totalPublicaciones },
-      { label: "Comentarios Totales", value: stats.totalComentarios },
-      { label: "Snippets Aprobados", value: stats.snippetsAprobados },
-      { label: "Usuarios Activos", value: stats.usuariosActivos },
+      ["Usuarios Registrados", stats.totalUsers],
+      ["Snippets Creados", stats.totalSnippets],
+      ["Publicaciones Totales", stats.totalPublicaciones],
+      ["Comentarios Totales", stats.totalComentarios],
+      ["Snippets Aprobados", stats.snippetsAprobados],
+      ["Usuarios Activos", stats.usuariosActivos],
     ];
-
-    statsList.forEach((stat) => {
-      doc.text(`${stat.label}: ${stat.value}`, 20, y);
-      y += 10;
+  
+    let y = 30;
+    doc.setFillColor(243, 244, 246); // Gray-100 para filas
+    statsList.forEach(([label, value], i) => {
+      const rowY = y + i * 10;
+      if (i % 2 === 0) {
+        doc.setFillColor(255, 255, 255); // Blanco para filas pares
+      } else {
+        doc.setFillColor(243, 244, 246); // Gris claro para filas impares
+      }
+       // Alternar filas
+      doc.rect(15, rowY - 6, 180, 8, "F");
+  
+      doc.setTextColor(51);
+      doc.text(`${label}:`, 20, rowY);
+      doc.setFont("helvetica", "bold");
+      doc.text(`${value}`, 180, rowY, { align: "right" });
+      doc.setFont("helvetica", "normal");
     });
-
+  
+    // Canvas a imagen
     const barCanvas = barChartRef.current;
     const pieCanvas = pieChartRef.current;
-
+  
     if (!barCanvas || !pieCanvas) {
-      console.error("No se pudo encontrar uno o ambos canvas.");
+      console.error("Canvas no disponible.");
       return;
     }
-
+  
     try {
-      const barImage = await html2canvas(barCanvas, {
-        useCORS: true,
-        backgroundColor: "#fff",
-      }).then((canvas) => canvas.toDataURL("image/png"));
-
-      const pieImage = await html2canvas(pieCanvas, {
-        useCORS: true,
-        backgroundColor: "#fff",
-      }).then((canvas) => canvas.toDataURL("image/png"));
-
-      // Validar que las imágenes no estén vacías
-      if (!barImage || !barImage.startsWith("data:image/png")) {
-        throw new Error("Error al generar la imagen de barras.");
-      }
-
-      if (!pieImage || !pieImage.startsWith("data:image/png")) {
-        throw new Error("Error al generar la imagen de torta.");
-      }
-
+      await new Promise((resolve) => setTimeout(resolve, 300));
+  
+      const barImage = await html2canvas(barCanvas, { useCORS: true }).then((canvas) =>
+        canvas.toDataURL("image/png")
+      );
+      const pieImage = await html2canvas(pieCanvas, { useCORS: true }).then((canvas) =>
+        canvas.toDataURL("image/png")
+      );
+  
+      // Página de Gráfico de Barras
       doc.addPage();
-      doc.text("Diagrama de Barras", 20, 20);
+      doc.setFontSize(16);
+      doc.setFont("helvetica", "bold");
+      doc.text("Visualización: Gráfico de Barras", 15, 20);
       doc.addImage(barImage, "PNG", 15, 30, 180, 100);
-
+  
+      // Página de Gráfico de Torta
       doc.addPage();
-      doc.text("Diagrama de Torta", 20, 20);
+      doc.setFontSize(16);
+      doc.setFont("helvetica", "bold");
+      doc.text("Visualización: Gráfico de Torta", 15, 20);
       doc.addImage(pieImage, "PNG", 15, 30, 180, 100);
-
+  
+      // Guardar PDF
       doc.save("reporte_estadisticas.pdf");
     } catch (error) {
-      console.error("Error generando imágenes para el PDF:", error);
-      alert("Ocurrió un error al generar el PDF. Verifica que los gráficos estén visibles.");
+      console.error("Error al generar el PDF:", error);
+      alert("Error al generar el reporte. Verifica que los gráficos estén disponibles.");
     }
   };
+  
+  
 
   const StatCard = ({ title, value, Icon }) => (
     <Card>
@@ -275,20 +314,21 @@ const DashboardAdminPage = () => {
 
         {/* Canvas ocultos pero renderizados para generar el PDF */}
         <div
-          style={{
-            visibility: "hidden",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: -1,
-            width: 0,
-            height: 0,
-            overflow: "hidden",
-          }}
-        >
-          <canvas ref={barChartRef} width="400" height="400" />
-          <canvas ref={pieChartRef} width="400" height="400" />
-        </div>
+  style={{
+    opacity: 0,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: -1,
+    width: 400,
+    height: 400,
+    overflow: "hidden",
+  }}
+>
+  <canvas ref={barChartRef} width="400" height="400" />
+  <canvas ref={pieChartRef} width="400" height="400" />
+</div>
+
       </section>
     </div>
   );
