@@ -109,12 +109,6 @@ export function Sidebar({ mobile = false }: SidebarProps) {
                   <span>Mis Publicaciones</span>
                 </Button>
               </Link>
-              <Link href="/publications/new">
-                <Button variant="ghost" className="w-full justify-start gap-2">
-                  <PlusCircle className="h-4 w-4" />
-                  <span>Crear una publicación</span>
-                </Button>
-              </Link>
             </nav>
           </div>
 

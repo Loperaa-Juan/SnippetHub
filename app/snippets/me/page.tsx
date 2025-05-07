@@ -19,16 +19,16 @@ export default function MisSnippetsPage() {
   const [snippets, setSnippets] = useState<SnippetInterface[]>([]);
   const [editandoId, setEditandoId] = useState<string | null>(null);
   const [editTitulo, setEditTitulo] = useState("");
-
   const [editContenido, setEditContenido] = useState("");
   const [archivo, setArchivo] = useState<File | null>(null);
   const [copiadoId, setCopiadoId] = useState<string | null>(null);
+  const [mensajeExito, setMensajeExito] = useState<string | null>(null); // ✅ Nuevo estado
 
   const handleCopiar = async (snippet: SnippetInterface) => {
     try {
       await navigator.clipboard.writeText(snippet.snippet);
       setCopiadoId(snippet.id);
-  
+
       setTimeout(() => {
         setCopiadoId(null);
       }, 2000);
@@ -36,7 +36,6 @@ export default function MisSnippetsPage() {
       console.error("Error al copiar el snippet:", err);
     }
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -117,7 +116,6 @@ export default function MisSnippetsPage() {
     }
   };
 
-
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
     if (!token) return console.error("Token no encontrado");
@@ -148,18 +146,18 @@ export default function MisSnippetsPage() {
       return;
     }
 
+    const formData = new FormData();
+    formData.append("Titulo", snippet.Titulo);
+    formData.append("Contenido", snippet.snippet);
+    formData.append("SnippetId", snippet.id);
+
     try {
-      const response = await fetch("/api/create/publicaciones", {
+      const response = await fetch("/api/publicaciones", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          Titulo: snippet.Titulo,
-          Contenido: snippet.snippet,
-          SnippetId: snippet.id,
-        }),
+        body: formData,
       });
 
       const data = await response.json();
@@ -170,6 +168,10 @@ export default function MisSnippetsPage() {
       }
 
       console.log("Publicación exitosa:", data);
+      setMensajeExito("Snippet publicado exitosamente"); // ✅ Mensaje de éxito
+      setTimeout(() => {
+        setMensajeExito(null);
+      }, 3000);
     } catch (error) {
       console.error("Error en la publicación:", error);
     }
@@ -182,6 +184,14 @@ export default function MisSnippetsPage() {
         <Sidebar />
         <div className="flex-1 p-6 space-y-4">
           <h1 className="text-2xl font-bold">Mis Snippets</h1>
+
+          {/* ✅ Mensaje de éxito al publicar */}
+          {mensajeExito && (
+            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md text-sm">
+              {mensajeExito}
+            </div>
+          )}
+
           {snippets.length === 0 ? (
             <p>No tienes snippets en nuestra plataforma</p>
           ) : (
@@ -240,54 +250,50 @@ export default function MisSnippetsPage() {
                   ) : (
                     <>
                       <div className="bg-white rounded-2xl shadow-md p-6 space-y-4 border border-gray-200">
-  <div className="space-y-1">
-    <h2 className="text-2xl font-bold text-gray-800">{snippet.Titulo}</h2>
-    <p className="text-sm text-indigo-600 font-medium">{snippet.Lenguaje}</p>
-    <p className="text-sm text-gray-700 italic">{snippet.descripcion}</p>
-  </div>
+                        <div className="space-y-1">
+                          <h2 className="text-2xl font-bold text-gray-800">
+                            {snippet.Titulo}
+                          </h2>
+                          <p className="text-sm text-indigo-600 font-medium">
+                            {snippet.Lenguaje}
+                          </p>
+                          <p className="text-sm text-gray-700 italic">
+                            {snippet.descripcion}
+                          </p>
+                        </div>
 
-  <pre className="bg-gray-900 text-gray-100 text-sm rounded-lg p-4 overflow-x-auto font-mono">
-    <code>{snippet.snippet}</code>
-  </pre>
+                        <pre className="bg-gray-900 text-gray-100 text-sm rounded-lg p-4 overflow-x-auto font-mono">
+                          <code>{snippet.snippet}</code>
+                        </pre>
 
-  <div className="flex flex-wrap gap-3 items-center justify-between">
-    {copiadoId === snippet.id && (
-      <span className="text-green-600 text-sm font-semibold">¡Copiado!</span>
-    )}
+                        <div className="flex flex-wrap gap-3 items-center justify-between">
+                          {copiadoId === snippet.id && (
+                            <span className="text-green-600 text-sm font-semibold">
+                              ¡Copiado!
+                            </span>
+                          )}
 
-    <div className="flex flex-wrap gap-2 ml-auto">
-      
-      <Button
-        variant="destructive"
-        className="flex items-center gap-2"
-        onClick={() => handleDelete(snippet.id)}
-      >
-        <Trash className="h-4 w-4" />
-        Eliminar
-      </Button>
+                          <div className="flex flex-wrap gap-2 ml-auto">
+                            <Button
+                              variant="destructive"
+                              className="flex items-center gap-2"
+                              onClick={() => handleDelete(snippet.id)}
+                            >
+                              <Trash className="h-4 w-4" />
+                              Eliminar
+                            </Button>
 
-
-    <Button
-      variant="default"
-      className="flex items-center gap-2"
-      onClick={async () => {
-        try {
-          await navigator.clipboard.writeText(snippet.id);
-          setCopiadoId(snippet.id);
-          setTimeout(() => setCopiadoId(null), 2000);
-        } catch (err) {
-          console.error("Error al copiar el ID:", err);
-        }
-      }}
-    >
-      <IdCard className="h-4 w-4" />
-      Copiar ID!
-    </Button>
-
-    </div>
-  </div>
-</div>
-
+                            <Button
+                              variant="default"
+                              className="flex items-center gap-2"
+                              onClick={() => handlePublish(snippet)}
+                            >
+                              <Upload className="h-4 w-4" />
+                              Publicar
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
                     </>
                   )}
                 </Card>
