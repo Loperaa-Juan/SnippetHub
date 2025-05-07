@@ -185,7 +185,7 @@ export default function MisPublicacionesPage() {
                         <p className="text-gray-600">{pub.contenido}</p>
                       </div>
 
-                      <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-800">
+                      <pre className="bg-gray-900 text-gray-100 text-sm rounded-lg p-4 overflow-x-auto font-mono">
                         <code>{pub.archivo}</code>
                       </pre>
 

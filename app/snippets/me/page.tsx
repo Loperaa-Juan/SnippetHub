@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Navbar } from "../../../components/navbar";
 import { Sidebar } from "../../../components/sidebar";
 import { Card } from "@/components/ui/card";
-import { Copy, CopyPlus, Pencil, Trash, Upload, IdCard } from "lucide-react";
+import { Trash, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface SnippetInterface {
@@ -22,7 +22,7 @@ export default function MisSnippetsPage() {
   const [editContenido, setEditContenido] = useState("");
   const [archivo, setArchivo] = useState<File | null>(null);
   const [copiadoId, setCopiadoId] = useState<string | null>(null);
-  const [mensajeExito, setMensajeExito] = useState<string | null>(null); // ✅ Nuevo estado
+  const [mensajeExito, setMensajeExito] = useState<string | null>(null); 
 
   const handleCopiar = async (snippet: SnippetInterface) => {
     try {
@@ -74,12 +74,6 @@ export default function MisSnippetsPage() {
     fetchData();
   }, []);
 
-  const handleEditar = (snippet: SnippetInterface) => {
-    setEditandoId(snippet.id);
-    setEditTitulo(snippet.Titulo);
-    setEditContenido(snippet.snippet);
-    setArchivo(null);
-  };
 
   const handleGuardar = async (id: string) => {
     const token = localStorage.getItem("token");
@@ -148,7 +142,7 @@ export default function MisSnippetsPage() {
 
     const formData = new FormData();
     formData.append("Titulo", snippet.Titulo);
-    formData.append("Contenido", snippet.snippet);
+    formData.append("Contenido", snippet.descripcion);
     formData.append("SnippetId", snippet.id);
 
     try {
@@ -168,7 +162,7 @@ export default function MisSnippetsPage() {
       }
 
       console.log("Publicación exitosa:", data);
-      setMensajeExito("Snippet publicado exitosamente"); // ✅ Mensaje de éxito
+      setMensajeExito("Snippet publicado exitosamente");
       setTimeout(() => {
         setMensajeExito(null);
       }, 3000);
