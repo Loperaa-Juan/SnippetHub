@@ -177,7 +177,7 @@ export default function MisSnippetsPage() {
       <div className="flex flex-1">
         <Sidebar />
         <div className="flex-1 p-6 space-y-4">
-          <h1 className="text-2xl font-bold">Mis Snippets</h1>
+          <h1 className="text-2xl font-bold dark:neon-text">Mis Snippets</h1>
 
           {/* ✅ Mensaje de éxito al publicar */}
           {mensajeExito && (
@@ -187,7 +187,7 @@ export default function MisSnippetsPage() {
           )}
 
           {snippets.length === 0 ? (
-            <p>No tienes snippets en nuestra plataforma</p>
+            <p className="dark:neon-text">No tienes snippets en nuestra plataforma</p>
           ) : (
             <div className="space-y-4">
               {snippets.map((snippet, index) => (
@@ -228,12 +228,14 @@ export default function MisSnippetsPage() {
                       />
                       <div className="flex gap-2">
                         <Button
+                          className="dark:neon-text"
                           variant="outline"
                           onClick={() => setEditandoId(null)}
                         >
                           Cancelar
                         </Button>
                         <Button
+                          className="dark:neon-text"
                           variant="default"
                           onClick={() => handleGuardar(snippet.id)}
                         >
@@ -245,7 +247,7 @@ export default function MisSnippetsPage() {
                     <>
                       <div className="bg-white rounded-2xl shadow-md p-6 space-y-4 border border-gray-200">
                         <div className="space-y-1">
-                          <h2 className="text-2xl font-bold text-gray-800">
+                          <h2 className="text-2xl font-bold text-gray-800 ">
                             {snippet.Titulo}
                           </h2>
                           <p className="text-sm text-indigo-600 font-medium">
@@ -270,7 +272,7 @@ export default function MisSnippetsPage() {
                           <div className="flex flex-wrap gap-2 ml-auto">
                             <Button
                               variant="destructive"
-                              className="flex items-center gap-2"
+                              className="flex items-center gap-2 dark:neon-text"
                               onClick={() => handleDelete(snippet.id)}
                             >
                               <Trash className="h-4 w-4" />
@@ -279,7 +281,7 @@ export default function MisSnippetsPage() {
 
                             <Button
                               variant="default"
-                              className="flex items-center gap-2"
+                              className="flex items-center gap-2 dark:neon-text"
                               onClick={() => handlePublish(snippet)}
                             >
                               <Upload className="h-4 w-4" />

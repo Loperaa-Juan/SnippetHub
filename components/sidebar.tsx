@@ -52,11 +52,11 @@ export function Sidebar({ mobile = false }: SidebarProps) {
     <div className={cn("flex h-full w-64 flex-col border-r bg-background", mobile && "w-full border-r-0")}>
       <div className="p-4">
         <div className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground " />
           <Input
             type="search"
             placeholder="Buscar usuarios..."
-            className="pl-8"
+            className="pl-8 "
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -64,8 +64,8 @@ export function Sidebar({ mobile = false }: SidebarProps) {
         </div>
         <div className="mt-4 flex w-full">
           <Link href="/snippets/new" className="w-full">
-            <Button className="w-full gap-1">
-              <Plus className="h-4 w-4" />
+            <Button className="w-full gap-1 dark:neon-text">
+              <Plus className="h-4 w-4 dark:neon-text" />
               <span>Nuevo Snippet</span>
             </Button>
           </Link>
@@ -81,14 +81,14 @@ export function Sidebar({ mobile = false }: SidebarProps) {
             </div>
             <nav className="grid gap-1">
               <Link href="/dashboard">
-                <Button variant="ghost" className="w-full justify-start gap-2">
+                <Button variant="ghost" className="w-full justify-start gap-2 dark:neon-text">
                   <Home className="h-4 w-4" />
                   <span>Introducción</span>
                 </Button>
               </Link>
               {isAdmin && (
                 <Link href="/Admin">
-                  <Button variant="ghost" className="w-full justify-start gap-2">
+                  <Button variant="ghost" className="w-full justify-start gap-2 dark:neon-text">
                     <Shield className="h-4 w-4" />
                     <span>Panel Administrativo</span>
                   </Button>
@@ -104,7 +104,7 @@ export function Sidebar({ mobile = false }: SidebarProps) {
             </div>
             <nav className="grid gap-1">
               <Link href="/publications/me">
-                <Button variant="ghost" className="w-full justify-start gap-2">
+                <Button variant="ghost" className="w-full justify-start gap-2 dark:neon-text">
                   <User className="h-4 w-4" />
                   <span>Mis Publicaciones</span>
                 </Button>
@@ -119,7 +119,7 @@ export function Sidebar({ mobile = false }: SidebarProps) {
             </div>
             <nav className="grid gap-1">
               <Link href="/snippets/me">
-                <Button variant="ghost" className="w-full justify-start gap-2">
+                <Button variant="ghost" className="w-full justify-start gap-2 dark:neon-text">
                   <Code2 className="h-4 w-4" />
                   <span>Mis Snippets</span>
                 </Button>

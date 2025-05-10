@@ -142,10 +142,10 @@ export default function MisPublicacionesPage() {
 
         {/* Contenido principal */}
         <div className="flex-1 p-6 space-y-4">
-          <h1 className="text-2xl font-bold">Mis Publicaciones</h1>
+          <h1 className="text-2xl font-bold dark:neon-text">Mis Publicaciones</h1>
 
           {publicaciones.length === 0 ? (
-            <p>No tienes publicaciones aún.</p>
+            <p className="dark:neon-text">No tienes publicaciones aún.</p>
           ) : (
             <div className="space-y-4">
               {publicaciones.map((pub, index) => (
@@ -157,23 +157,23 @@ export default function MisPublicacionesPage() {
                     <div className="flex flex-col gap-4">
                       <input
                         type="text"
-                        className="border p-2 rounded-md"
+                        className="border p-2 rounded-md dark:neon-text"
                         value={editTitulo}
                         onChange={(e) => setEditTitulo(e.target.value)}
                         placeholder="Título"
                       />
                       <textarea
-                        className="border p-2 rounded-md"
+                        className="border p-2 rounded-md dark:neon-text"
                         value={editContenido}
                         onChange={(e) => setEditContenido(e.target.value)}
                         placeholder="Contenido"
                       />
 
-                      <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => setEditandoId(null)}>
+                      <div className="flex gap-2 ">
+                        <Button className="dark:neon-text" variant="outline" onClick={() => setEditandoId(null)}>
                           Cancelar
                         </Button>
-                        <Button variant="default" onClick={() => handleGuardar(pub.id)}>
+                        <Button className="dark:neon-text" variant="default" onClick={() => handleGuardar(pub.id)}>
                           Guardar
                         </Button>
                       </div>
@@ -181,12 +181,12 @@ export default function MisPublicacionesPage() {
                   ) : (
                     <>
                       <div className="flex flex-col gap-2">
-                        <h2 className="text-xl font-semibold text-gray-800">{pub.titulo}</h2>
+                        <h2 className="text-xl font-semibold text-gray-800 dark:neon-text">{pub.titulo}</h2>
                         <p className="text-gray-600">{pub.contenido}</p>
                       </div>
 
                       <pre className="bg-gray-900 text-gray-100 text-sm rounded-lg p-4 overflow-x-auto font-mono">
-                        <code>{pub.archivo}</code>
+                        <code className="dark:neon-text">{pub.archivo}</code>
                       </pre>
 
                       <div className="flex flex-wrap gap-2 items-center">
@@ -194,7 +194,7 @@ export default function MisPublicacionesPage() {
                           <div className="relative">
                             <Button
                               variant="outline"
-                              className="flex items-center gap-2"
+                              className="flex items-center gap-2 dark:neon-text"
                               onClick={async () => {
                                 try {
                                   await navigator.clipboard.writeText(pub.archivo)
@@ -219,7 +219,7 @@ export default function MisPublicacionesPage() {
 
                         <Button
                           variant="outline"
-                          className="flex items-center gap-2"
+                          className="flex items-center gap-2 dark:neon-text"
                           onClick={() => handleEditar(pub)}
                         >
                           <Pencil className="h-4 w-4" />
@@ -228,7 +228,7 @@ export default function MisPublicacionesPage() {
 
                         <Button
                           variant="destructive"
-                          className="flex items-center gap-2"
+                          className="flex items-center gap-2 dark:neon-text"
                           onClick={() => handleDelete(pub.id)}
                         >
                           <Trash className="h-4 w-4" />

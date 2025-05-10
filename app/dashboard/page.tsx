@@ -58,7 +58,7 @@ export default function DashboardPage() {
         <Sidebar />
         <main className="flex-1 p-6">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h1 className="text-3xl font-bold tracking-tight">Ejemplos de Snippets</h1>
+            <h1 className="text-3xl font-bold tracking-tight dark:neon-text">Ejemplos de Snippets</h1>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

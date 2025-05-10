@@ -61,7 +61,7 @@ export function FileDropUploader({ onDrop }: FileDropUploaderProps) {
 
       {selectedFileName ? (
         <p className="text-sm font-medium text-gray-700">
-          Archivo cargado: <span className="font-semibold">{selectedFileName}</span>
+          Archivo cargado: <span className="font-semibold dark:neon-text">{selectedFileName}</span>
         </p>
       ) : (
         <p className="text-sm">

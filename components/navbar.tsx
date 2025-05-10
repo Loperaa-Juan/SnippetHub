@@ -23,7 +23,7 @@ export function Navbar() {
       <div className="container flex h-16 items-center">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="mr-2 md:hidden">
+            <Button variant="ghost" size="icon" className="mr-2 md:hidden ">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle Menu</span>
             </Button>
@@ -32,7 +32,7 @@ export function Navbar() {
             <MobileSidebar />
           </SheetContent>
         </Sheet>
-        <Link href="/dashboard" className="flex items-center gap-2">
+        <Link href="/dashboard" className="flex items-center gap-2 dark:neon-text">
           <Code2 className="h-6 w-6 text-primary" />
           <span className="text-xl font-bold">SnippetHub</span>
         </Link>
@@ -40,18 +40,18 @@ export function Navbar() {
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
+              <Button variant="ghost" size="icon" className="rounded-full dark:neon-text">
                 <User className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
-                <Link href="/profile">Mi Perfil</Link>
+                <Link className="dark:neon-text" href="/profile">Mi Perfil</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/" className="flex items-center gap-2 text-destructive">
-                  <LogOut className="h-4 w-4" />
+                <Link href="/" className="flex items-center gap-2 text-destructive dark:neon-text">
+                  <LogOut className="h-4 w-4 " />
                   <span>Cerrar Sesión</span>
                 </Link>
               </DropdownMenuItem>

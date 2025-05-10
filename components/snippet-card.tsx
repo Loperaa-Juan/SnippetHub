@@ -33,12 +33,12 @@ export function SnippetCard({ snippet }: { snippet: Snippet }) {
       <p className="text-sm text-zinc-600 dark:text-zinc-300 mb-2">{snippet.description}</p>
       
       <pre className="relative text-sm  text-black p-3 rounded overflow-auto whitespace-pre-wrap max-h-60">
-        <code>{snippet.code}</code>
+        <code className="dark:neon-text">{snippet.code}</code>
         <Button
           variant="ghost"
           size="icon"
           onClick={handleCopy}
-          className="absolute top-2 right-2"
+          className="absolute top-2 right-2 dark:neon-text"
           title="Copiar al portapapeles"
         >
           {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}

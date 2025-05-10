@@ -287,9 +287,9 @@ const DashboardAdminPage = () => {
   const StatCard = ({ title, value, Icon }) => (
     <Card>
       <CardContent className="p-6 flex justify-center items-center flex-col">
-        <h2 className="mb-6 text-center text-2xl font-bold">{title}</h2>
+        <h2 className="mb-6 text-center text-2xl font-bold dark:neon-text">{title}</h2>
         <Icon className="mb-6 h-20 w-20 text-muted-foreground" />
-        <p className="text-2xl font-bold">{value}</p>
+        <p className="text-2xl font-bold dark:neon-text">{value}</p>
       </CardContent>
     </Card>
   );
@@ -334,7 +334,7 @@ const DashboardAdminPage = () => {
             />
           </div>
           <div className="flex justify-center items-center flex-col mb-10">
-            <Button onClick={handleDownloadPDFReport}>
+            <Button className="dark:neon-text" onClick={handleDownloadPDFReport}>
               Descargar Reporte en PDF
             </Button>
           </div>
