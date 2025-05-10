@@ -88,7 +88,11 @@ const config: Config = {
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out'
-  		}
+  		},
+		boxShadow: {
+			neon: '0 0 8px hsl(var(--primary-glow)), 0 0 16px hsl(var(--primary-glow))',
+			'neon-accent': '0 0 8px hsl(var(--accent-glow)), 0 0 16px hsl(var(--accent-glow))',
+		},
   	}
   },
   plugins: [require("tailwindcss-animate")],

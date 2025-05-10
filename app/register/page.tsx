@@ -64,7 +64,7 @@ export default function RegisterPage() {
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 dark:neon-text">
             <Code2 className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">SnippetHub</span>
           </Link>
@@ -74,43 +74,43 @@ export default function RegisterPage() {
       <main className="flex flex-1 items-center justify-center p-4">
         <Card className="mx-auto w-full max-w-md">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Crear Cuenta</CardTitle>
+            <CardTitle className="text-2xl font-bold dark:neon-text">Crear Cuenta</CardTitle>
             <CardDescription>Regístrate para comenzar a organizar tus snippets de código</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
 
             {/* Nombre Usuario */}
             <div className="space-y-2">
-              <Label htmlFor="username">Nombre de Usuario</Label>
+              <Label className="dark:neon-text" htmlFor="username">Nombre de Usuario</Label>
               <Input id="username" placeholder="usuario123" value={username} onChange={e => setUsername(e.target.value)}/>
             </div>
 
             {/* Nombre completo */}
             <div className="space-y-2">
-              <Label htmlFor="username">Nombre Completo</Label>
+              <Label className="dark:neon-text" htmlFor="username">Nombre Completo</Label>
               <Input id="full-name" placeholder="Tu Nombre" value={fullName} onChange={e => setFullName(e.target.value)}/>
             </div>
 
             {/* email */}
             <div className="space-y-2">
-              <Label htmlFor="email">Correo Electrónico</Label>
+              <Label className="dark:neon-text" htmlFor="email">Correo Electrónico</Label>
               <Input id="email" type="email" placeholder="tu@ejemplo.com" value={email} onChange={e => setEmail(e.target.value)} />
             </div>
 
             {/* Contraseña */}
             <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
+              <Label className="dark:neon-text" htmlFor="password">Contraseña</Label>
               <PasswordInput id="password" value={password} onChange={e => setPassword(e.target.value)} />
             </div>
 
             {/* Confirmar contraseña */}
             <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirmar Contraseña</Label>
+              <Label className="dark:neon-text" htmlFor="confirm-password">Confirmar Contraseña</Label>
               <PasswordInput id="confirm-password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
             </div>
 
             {confirmPassword && password !== confirmPassword && (
-                <p className="text-red-600 text-sm">
+                <p className="text-red-600 text-sm dark:neon-text">
                   Las contraseñas no coinciden
                 </p>
             )}
@@ -118,12 +118,12 @@ export default function RegisterPage() {
             <Button className="w-full" type="submit" onClick={handleSubmit} disabled={!fullName || !username || !email || !password || !confirmPassword || password !== confirmPassword}>
               Registrarse
             </Button>
-            {error && <p className="text-red-600">{error}</p>}
+            {error && <p className="text-red-600 dark:neon-text">{error}</p>}
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="mt-2 text-center text-sm">
               ¿Ya tienes cuenta?{" "}
-              <Link href="/login" className="text-primary hover:underline">
+              <Link href="/login" className="text-primary hover:underline dark:neon-text">
                 Inicia Sesión
               </Link>
             </div>
@@ -148,9 +148,9 @@ function PasswordInput({ id, value, onChange }: { id: string; value: string; onC
         onClick={() => setShowPassword(!showPassword)}
       >
         {showPassword ? (
-          <EyeOff className="h-4 w-4 text-muted-foreground" />
+          <Eye className="h-4 w-4 text-muted-foreground dark:neon-text" />
         ) : (
-          <Eye className="h-4 w-4 text-muted-foreground" />
+          <EyeOff className="h-4 w-4 text-muted-foreground" />
         )}
         <span className="sr-only">{showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}</span>
       </Button>

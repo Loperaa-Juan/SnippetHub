@@ -73,24 +73,24 @@ export default function PublicationsPage() {
       <div className="flex flex-1">
         <Sidebar />
         <main className="flex-1 p-6 space-y-4">
-          <h1 className="text-2xl font-bold">Publicaciones de {username}</h1>
+          <h1 className="text-2xl font-bold dark:neon-text">Publicaciones de {username}</h1>
 
-          {loading && <p className="text-gray-500">Cargando publicaciones...</p>}
+          {loading && <p className="text-gray-500 dark:neon-text">Cargando publicaciones...</p>}
           {error && <p className="text-red-600">{error}</p>}
           {!loading && !error && publicaciones.length === 0 && (
-            <p className="text-gray-500">No hay publicaciones disponibles.</p>
+            <p className="text-gray-500 dark:neon-text">No hay publicaciones disponibles.</p>
           )}
 
           <div className="space-y-4">
             {publicaciones.map((pub) => (
               <Card key={pub.id} className="flex flex-col gap-4 p-6 shadow-md rounded-2xl border border-gray-200">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-800">{pub.titulo}</h2>
+                  <h2 className="text-2xl font-bold text-gray-800 dark:neon-text">{pub.titulo}</h2>
                   <p className="text-sm text-gray-700 italic">{pub.contenido}</p>
                 </div>
 
                 <pre className="bg-gray-900 text-gray-100 text-sm rounded-lg p-4 overflow-x-auto font-mono">
-                  <code>{atob(pub.archivo)}</code>
+                  <code className="dark:neon-text">{atob(pub.archivo)}</code>
                 </pre>
 
                 <div className="flex flex-wrap items-center gap-3">
@@ -105,7 +105,7 @@ export default function PublicationsPage() {
                         console.error("Error al copiar:", error);
                       }
                     }}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 dark:neon-text"
                   >
                     <Copy className="h-4 w-4" />
                     Copiar
@@ -113,7 +113,7 @@ export default function PublicationsPage() {
 
                   <Button
                     variant="destructive"
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 dark:neon-text"
                     onClick={() => setComentarioActivo(pub.id === comentarioActivo ? null : pub.id)}
                   >
                     <MessageCircle className="h-4 w-4" />
@@ -122,7 +122,7 @@ export default function PublicationsPage() {
 
                   <Button
                     variant="default"
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 dark:neon-text"
                     onClick={async () => {
                       if (comentariosVisiblesId === pub.id) {
                         setComentariosVisiblesId(null); // Ocultar si ya está visible
@@ -192,7 +192,7 @@ export default function PublicationsPage() {
                         </div>
                       ))
                     ) : (
-                      <p className="text-sm text-gray-500 italic text-center">
+                      <p className="text-sm text-gray-500 italic text-center dark:neon-text">
                         No hay comentarios disponibles.
                       </p>
                     )}
@@ -200,7 +200,7 @@ export default function PublicationsPage() {
                 )}
 
                 {comentarioActivo === pub.id && (
-                  <div className="mt-2 space-y-2">
+                  <div className="mt-2 space-y-2 dark:neon-text">
                     <Input
                       placeholder="Escribe tu comentario..."
                       value={comentarios[pub.id] || ""}
@@ -213,6 +213,7 @@ export default function PublicationsPage() {
                     />
 
                     <Button
+                      className="dark:neon-text"
                       onClick={async () => {
                         const token = localStorage.getItem("token");
                         if (!token) {

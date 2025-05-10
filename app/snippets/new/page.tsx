@@ -85,13 +85,13 @@ export default function NewSnippetPage() {
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Link href="/dashboard">
-                <Button variant="ghost" size="icon">
+                <Button className="dark:neon-text" variant="ghost" size="icon">
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
               </Link>
-              <h1 className="text-2xl font-bold tracking-tight">Nuevo Snippet</h1>
+              <h1 className="text-2xl font-bold tracking-tight dark:neon-text">Nuevo Snippet</h1>
             </div>
-            <Button className="gap-1" onClick={handleGuardar}>
+            <Button className="gap-1 dark:neon-text" onClick={handleGuardar}>
               <Save className="h-4 w-4" />
               <span>Guardar Snippet</span>
             </Button>
@@ -104,7 +104,7 @@ export default function NewSnippetPage() {
           )}
 
           <div className="grid gap-6">
-            <div className="space-y-2">
+            <div className="space-y-2 dark:neon-text">
               <Label htmlFor="title">Título</Label>
               <Input
                 id="title"
@@ -118,26 +118,26 @@ export default function NewSnippetPage() {
               <div className="rounded-md border">
                 <div className="flex items-center border-b px-3 py-2">
                   <Select value={lenguaje} onValueChange={setLenguaje}>
-                    <SelectTrigger className="w-40 border-0 bg-transparent p-0 shadow-none focus:ring-0">
+                    <SelectTrigger className="w-40 border-0 bg-transparent p-0 shadow-none focus:ring-0 dark:neon-text">
                       <SelectValue placeholder="Seleccionar lenguaje" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="javascript">JavaScript</SelectItem>
-                      <SelectItem value="typescript">TypeScript</SelectItem>
-                      <SelectItem value="html">HTML</SelectItem>
-                      <SelectItem value="css">CSS</SelectItem>
-                      <SelectItem value="jsx">JSX</SelectItem>
-                      <SelectItem value="tsx">TSX</SelectItem>
-                      <SelectItem value="python">Python</SelectItem>
-                      <SelectItem value="java">Java</SelectItem>
-                      <SelectItem value="csharp">C#</SelectItem>
-                      <SelectItem value="php">PHP</SelectItem>
-                      <SelectItem value="ruby">Ruby</SelectItem>
-                      <SelectItem value="go">Go</SelectItem>
-                      <SelectItem value="rust">Rust</SelectItem>
-                      <SelectItem value="sql">SQL</SelectItem>
-                      <SelectItem value="json">JSON</SelectItem>
-                      <SelectItem value="markdown">Markdown</SelectItem>
+                      <SelectItem className="dark:neon-text" value="javascript">JavaScript</SelectItem>
+                      <SelectItem className="dark:neon-text" value="typescript">TypeScript</SelectItem>
+                      <SelectItem className="dark:neon-text" value="html">HTML</SelectItem>
+                      <SelectItem className="dark:neon-text" value="css">CSS</SelectItem>
+                      <SelectItem className="dark:neon-text" value="jsx">JSX</SelectItem>
+                      <SelectItem className="dark:neon-text" value="tsx">TSX</SelectItem>
+                      <SelectItem className="dark:neon-text" value="python">Python</SelectItem>
+                      <SelectItem className="dark:neon-text" value="java">Java</SelectItem>
+                      <SelectItem className="dark:neon-text" value="csharp">C#</SelectItem>
+                      <SelectItem className="dark:neon-text" value="php">PHP</SelectItem>
+                      <SelectItem className="dark:neon-text" value="ruby">Ruby</SelectItem>
+                      <SelectItem className="dark:neon-text" value="go">Go</SelectItem>
+                      <SelectItem className="dark:neon-text" value="rust">Rust</SelectItem>
+                      <SelectItem className="dark:neon-text" value="sql">SQL</SelectItem>
+                      <SelectItem className="dark:neon-text" value="json">JSON</SelectItem>
+                      <SelectItem className="dark:neon-text" value="markdown">Markdown</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -154,7 +154,7 @@ export default function NewSnippetPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Descripción</Label>
+              <Label className="dark:neon-text" htmlFor="description">Descripción</Label>
               <Textarea
                 id="description"
                 placeholder="Describe para qué sirve este snippet y cómo utilizarlo"
