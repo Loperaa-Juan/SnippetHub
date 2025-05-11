@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
 import { useRouter } from 'next/navigation'
-import { Code2, Home, Plus, Search, User, PlusCircle, Shield } from "lucide-react"
+import { Code2, Home, Plus, Search, User, BotMessageSquare, Shield } from "lucide-react"
 import React, { useEffect, useState } from "react"
 import {jwtDecode} from "jwt-decode"
 
@@ -84,6 +84,12 @@ export function Sidebar({ mobile = false }: SidebarProps) {
                 <Button variant="ghost" className="w-full justify-start gap-2 dark:neon-text">
                   <Home className="h-4 w-4" />
                   <span>Introducción</span>
+                </Button>
+              </Link>
+              <Link href="/chatbot">
+                <Button variant="ghost" className="w-full justify-start gap-2 dark:neon-text">
+                  <BotMessageSquare />
+                  <span>Chatea con SnippIA</span>
                 </Button>
               </Link>
               {isAdmin && (
