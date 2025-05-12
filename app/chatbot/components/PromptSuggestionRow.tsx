@@ -6,8 +6,12 @@ const PromptSuggestionRow = ({onPromptClick}) => {
     const prompts = [
         "¿Qué es un Snippet?",
         "¿Qué es SnippetHub?",
-        "¿Quienes crearon SnippetHub?",
-        "¿Cómo puedo crear una publicación?"
+        "Genera un hook de React para detectar si el usuario está en modo oscuro.",
+        "¿Cómo se usa Axios para hacer un POST?",
+        "¿Cómo configuro una conexión a PostgreSQL con SQLAlchemy?",
+        "¿Cómo puedo crear una publicación?",
+        "Crea un snippet reutilizable para conexión a base de datos PostgreSQL.",
+        "¿Cómo centro un div vertical y horizontalmente con Tailwind?"
     ]
 
     return(
