@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value
   const { pathname } = request.nextUrl
 
-  const protectedPaths = ["/profile", "/Admin", "/dashboard", "/publications", "/snippets", "/chatbot"]
+  const protectedPaths = ["/profile", "/Admin", "/dashboard", "/publications", "/snippets", "/chatbot", "/top_users"]
   const isProtected = protectedPaths.some((path) => pathname.startsWith(path))
 
   if (isProtected && !token) {
@@ -18,5 +18,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profile/:path*", "/Admin/:path*", "/dashboard/:path*", "/publications/:path*", "/snippets/:path*","/chatbot/:path*"],
+  matcher: ["/profile/:path*", "/Admin/:path*", "/dashboard/:path*", "/publications/:path*", "/snippets/:path*","/chatbot/:path*", "/top_users/:path*"],
 }
