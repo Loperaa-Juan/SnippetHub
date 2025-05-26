@@ -7,11 +7,11 @@ const {
     ASTRA_DB_COLLECTION,
     ASTRA_DB_API_ENDPOINT,
     ASTRA_DB_APPLICATION_TOKEN,
-    OPENAI_API_KEY
+    NEXT_PUBLIC_OPENAI_API_KEY
 } = process.env;
 
 const openai = new OpenAI({
-    apiKey: OPENAI_API_KEY
+    apiKey: NEXT_PUBLIC_OPENAI_API_KEY
 })
 
 const client = new DataAPIClient(ASTRA_DB_APPLICATION_TOKEN)

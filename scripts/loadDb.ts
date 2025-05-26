@@ -15,11 +15,11 @@ const {
     ASTRA_DB_COLLECTION,
     ASTRA_DB_API_ENDPOINT,
     ASTRA_DB_APPLICATION_TOKEN,
-    OPENAI_API_KEY
+    NEXT_PUBLIC_OPENAI_API_KEY
 } = process.env;
 
 // Empezamos a conectarnos con OpenAI y le pasamos nuestra api key
-const openai = new OpenAI( { apiKey: OPENAI_API_KEY } )
+const openai = new OpenAI( { apiKey: NEXT_PUBLIC_OPENAI_API_KEY } )
 
 // Definimos la fuente de la data para el RAG
 const snippIAData = [

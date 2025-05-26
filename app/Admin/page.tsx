@@ -2,12 +2,11 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef, use } from "react";
+import { useState, useEffect, useRef } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Chart from "chart.js/auto";
 import {
-  UserPlus2,
   UserRoundCheck,
   UsersRound,
   FileCheck2,
@@ -16,6 +15,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
+import {report_interpreter} from "@/scripts/report"
 
 const DashboardAdminPage = () => {
   const [stats, setStats] = useState({
@@ -27,6 +27,8 @@ const DashboardAdminPage = () => {
     usuariosActivos: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [barras, setbarras] = useState("")
+  const [torta, settorta] = useState("")
 
   const barChartRef = useRef<HTMLCanvasElement | null>(null);
   const pieChartRef = useRef<HTMLCanvasElement | null>(null);
@@ -58,6 +60,11 @@ const DashboardAdminPage = () => {
         }
 
         const data = await response.json();
+
+        const {barras, torta} = await report_interpreter(data);
+
+        setbarras(barras);
+        settorta(torta);
 
         setStats({
           totalUsers: data.total_usuarios,
@@ -266,6 +273,12 @@ const DashboardAdminPage = () => {
       doc.setFont("helvetica", "bold");
       doc.text("Visualización: Gráfico de Barras", 15, 20);
       doc.addImage(barImage, "PNG", 15, 30, 180, 100);
+
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
+      doc.text(barras, 15, 140, { maxWidth: 180, align: "justify" });
+
+
   
       // Página de Gráfico de Torta
       doc.addPage();
@@ -273,6 +286,12 @@ const DashboardAdminPage = () => {
       doc.setFont("helvetica", "bold");
       doc.text("Visualización: Gráfico de Torta", 15, 20);
       doc.addImage(pieImage, "PNG", 15, 30, 180, 100);
+
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
+      doc.text(torta, 15, 140, { maxWidth: 180, align: "justify"});
+
+
   
       // Guardar PDF
       doc.save("reporte_estadisticas.pdf");
