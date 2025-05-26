@@ -315,69 +315,76 @@ const DashboardAdminPage = () => {
   );
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar />
-      <div className="flex flex-1">
-        <Sidebar />
-        {/* <h1 className="text-3xl font-bold mb-8">Dashboard Administrativo</h1> */}
-        <section className="border-t bg-muted/40 py-16 align-middle flex-1 px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <StatCard
-              title="Usuarios Registrados"
-              value={stats.totalUsers}
-              Icon={UsersRound}
-            />
-            <StatCard
-              title="Snippets Creados"
-              value={stats.totalSnippets}
-              Icon={FileCheck2}
-            />
-            <StatCard
-              title="Publicaciones Totales"
-              value={stats.totalPublicaciones}
-              Icon={Newspaper}
-            />
-            <StatCard
-              title="Comentarios Totales"
-              value={stats.totalComentarios}
-              Icon={UserRoundCheck}
-            />
-            <StatCard
-              title="Snippets Aprobados"
-              value={stats.snippetsAprobados}
-              Icon={FileCheck2}
-            />
-            <StatCard
-              title="Usuarios Activos"
-              value={stats.usuariosActivos}
-              Icon={UserCheck2}
-            />
+  <div className="flex min-h-screen flex-col">
+    <Navbar />
+    <div className="flex flex-1">
+      <Sidebar />
+      <section className="border-t bg-muted/40 py-16 align-middle flex-1 px-4">
+        {loading ? (
+          <div className="flex justify-center items-center h-full text-xl font-semibold">
+            Cargando estadísticas y generando reporte...
           </div>
-          <div className="flex justify-center items-center flex-col mb-10">
-            <Button className="dark:neon-text" onClick={handleDownloadPDFReport}>
-              Descargar Reporte en PDF
-            </Button>
-          </div>
-          {/* Canvas ocultos pero renderizados para generar el PDF */}
-          <div
-          style={{
-            opacity: 0,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: -1,
-            width: 400,
-            height: 400,
-            overflow: "hidden",
-          }}
-        >
-          <canvas ref={barChartRef} width="400" height="400" />
-          <canvas ref={pieChartRef} width="400" height="400" />
-        </div>
-        </section>
-      </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <StatCard
+                title="Usuarios Registrados"
+                value={stats.totalUsers}
+                Icon={UsersRound}
+              />
+              <StatCard
+                title="Snippets Creados"
+                value={stats.totalSnippets}
+                Icon={FileCheck2}
+              />
+              <StatCard
+                title="Publicaciones Totales"
+                value={stats.totalPublicaciones}
+                Icon={Newspaper}
+              />
+              <StatCard
+                title="Comentarios Totales"
+                value={stats.totalComentarios}
+                Icon={UserRoundCheck}
+              />
+              <StatCard
+                title="Snippets Aprobados"
+                value={stats.snippetsAprobados}
+                Icon={FileCheck2}
+              />
+              <StatCard
+                title="Usuarios Activos"
+                value={stats.usuariosActivos}
+                Icon={UserCheck2}
+              />
+            </div>
+            <div className="flex justify-center items-center flex-col mb-10">
+              <Button className="dark:neon-text" onClick={handleDownloadPDFReport}>
+                Descargar Reporte en PDF
+              </Button>
+            </div>
+            <div
+              style={{
+                opacity: 0,
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: -1,
+                width: 400,
+                height: 400,
+                overflow: "hidden",
+              }}
+            >
+              <canvas ref={barChartRef} width="400" height="400" />
+              <canvas ref={pieChartRef} width="400" height="400" />
+            </div>
+          </>
+        )}
+      </section>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default DashboardAdminPage;
