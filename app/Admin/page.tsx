@@ -61,11 +61,7 @@ const DashboardAdminPage = () => {
 
         const data = await response.json();
 
-        const {barras, torta} = await report_interpreter(data);
-
-        setbarras(barras);
-        settorta(torta);
-
+        
         setStats({
           totalUsers: data.total_usuarios,
           totalSnippets: data.total_snippets,
@@ -74,6 +70,7 @@ const DashboardAdminPage = () => {
           snippetsAprobados: data.snippets_aprobados,
           usuariosActivos: data.usuarios_activos,
         });
+
       } catch (error) {
         console.error("Error al cargar estadísticas:", error);
       } finally {
@@ -83,6 +80,22 @@ const DashboardAdminPage = () => {
 
     fetchStats();
   }, []);
+
+  useEffect(() => {
+  if (!loading && stats.totalUsers > 0) {
+    const interpretar = async () => {
+      try {
+        const { barras, torta } = await report_interpreter(stats);
+        setbarras(barras);
+        settorta(torta);
+      } catch (err) {
+        console.error("Error al interpretar reporte:", err);
+      }
+    };
+    interpretar();
+  }
+}, [stats, loading]);
+
 
   useEffect(() => {
     const barCtx = barChartRef.current?.getContext("2d");
