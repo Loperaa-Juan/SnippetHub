@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
-import {report_interpreter} from "@/scripts/report"
 
 const DashboardAdminPage = () => {
   const [stats, setStats] = useState({
@@ -25,10 +24,12 @@ const DashboardAdminPage = () => {
     totalComentarios: 0,
     snippetsAprobados: 0,
     usuariosActivos: 0,
+    barrasDiagrama: "",
+    tortaDiagrama: ""
+
   });
   const [loading, setLoading] = useState(true);
-  const [barras, setbarras] = useState("")
-  const [torta, settorta] = useState("")
+
 
   const barChartRef = useRef<HTMLCanvasElement | null>(null);
   const pieChartRef = useRef<HTMLCanvasElement | null>(null);
@@ -61,7 +62,6 @@ const DashboardAdminPage = () => {
 
         const data = await response.json();
 
-        
         setStats({
           totalUsers: data.total_usuarios,
           totalSnippets: data.total_snippets,
@@ -69,6 +69,8 @@ const DashboardAdminPage = () => {
           totalComentarios: data.total_comentarios,
           snippetsAprobados: data.snippets_aprobados,
           usuariosActivos: data.usuarios_activos,
+          barrasDiagrama: data.barras,
+          tortaDiagrama: data.torta
         });
 
       } catch (error) {
@@ -78,24 +80,10 @@ const DashboardAdminPage = () => {
       }
     };
 
+        
+
     fetchStats();
   }, []);
-
-  useEffect(() => {
-  if (!loading && stats.totalUsers > 0) {
-    const interpretar = async () => {
-      try {
-        const { barras, torta } = await report_interpreter(stats);
-        setbarras(barras);
-        settorta(torta);
-      } catch (err) {
-        console.error("Error al interpretar reporte:", err);
-      }
-    };
-    interpretar();
-  }
-}, [stats, loading]);
-
 
   useEffect(() => {
     const barCtx = barChartRef.current?.getContext("2d");
@@ -289,7 +277,7 @@ const DashboardAdminPage = () => {
 
       doc.setFontSize(11);
       doc.setFont("helvetica", "bold");
-      doc.text(barras, 15, 140, { maxWidth: 180, align: "justify" });
+      doc.text(stats.barrasDiagrama, 15, 140, { maxWidth: 180, align: "justify" });
 
 
   
@@ -302,7 +290,7 @@ const DashboardAdminPage = () => {
 
       doc.setFontSize(11);
       doc.setFont("helvetica", "bold");
-      doc.text(torta, 15, 140, { maxWidth: 180, align: "justify"});
+      doc.text(stats.tortaDiagrama, 15, 140, { maxWidth: 180, align: "justify"});
 
 
   
