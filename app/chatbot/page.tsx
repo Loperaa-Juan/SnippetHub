@@ -118,7 +118,7 @@ export default function ChatbotPage() {
               <Button
                variant="ghost"
                onClick={isRecording ? stopRecording : handleRecord}
-               className="w-fit border-0 rounded-xl text-white bg-purple-950 cursor-pointer transition-all duration-300 ease-in-out px-6 py-4 hover:bg-purple-700 hover:scale-105"
+               className={isRecording ? `w-fit border-0 rounded-xl text-white bg-slate-500 cursor-pointer transition-all duration-300 ease-in-out px-6 py-4 hover:bg-purple-700 hover:scale-105` : 'w-fit border-0 rounded-xl text-white bg-purple-950 cursor-pointer transition-all duration-300 ease-in-out px-6 py-4 hover:bg-purple-700 hover:scale-105'}
               >
                 <Mic/>
               </Button>

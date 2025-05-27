@@ -216,7 +216,7 @@ const DashboardAdminPage = () => {
     doc.setTextColor(0);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
-    doc.text("Resumen General", 15, 20);
+    doc.text("RESUMEN GENERAL\n", 15, 20, {align: "center"});
   
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
@@ -231,13 +231,13 @@ const DashboardAdminPage = () => {
     ];
   
     let y = 30;
-    doc.setFillColor(243, 244, 246); // Gray-100 para filas
+    doc.setFillColor(243, 244, 246); 
     statsList.forEach(([label, value], i) => {
       const rowY = y + i * 10;
       if (i % 2 === 0) {
-        doc.setFillColor(255, 255, 255); // Blanco para filas pares
+        doc.setFillColor(255, 255, 255); 
       } else {
-        doc.setFillColor(243, 244, 246); // Gris claro para filas impares
+        doc.setFillColor(243, 244, 246); 
       }
        // Alternar filas
       doc.rect(15, rowY - 6, 180, 8, "F");
