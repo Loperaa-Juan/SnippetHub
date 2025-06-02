@@ -216,7 +216,7 @@ const DashboardAdminPage = () => {
     doc.setTextColor(0);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
-    doc.text("RESUMEN GENERAL\n", 15, 20, {align: "center"});
+    doc.text("RESUMEN GENERAL", 15, 20, {align: "center"});
   
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
